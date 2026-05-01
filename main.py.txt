@@ -1,0 +1,29 @@
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LogisticRegression
+from sklearn.preprocessing import LabelEncoder, StandardScaler
+from sklearn.metrics import accuracy_score
+
+# Sample dataset (temporary if you don't have one)
+data = {
+    'tenure': [1, 2, 3, 4, 5, 6],
+    'MonthlyCharges': [50, 60, 70, 80, 90, 100],
+    'Churn': [0, 0, 1, 0, 1, 1]
+}
+
+df = pd.DataFrame(data)
+
+X = df.drop('Churn', axis=1)
+y = df['Churn']
+
+scaler = StandardScaler()
+X = scaler.fit_transform(X)
+
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
+
+model = LogisticRegression()
+model.fit(X_train, y_train)
+
+y_pred = model.predict(X_test)
+
+print("Accuracy:", accuracy_score(y_test, y_pred))
